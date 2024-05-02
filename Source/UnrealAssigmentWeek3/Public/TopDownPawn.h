@@ -10,6 +10,7 @@
 #include "GameFramework/FloatingPawnMovement.h"
 #include "InputMappingContext.h"
 #include <GameFramework/SpringArmComponent.h>
+#include <Components/CapsuleComponent.h>
 #include "TopDownPawn.generated.h"
 
 class UInputMappingContext;
@@ -19,51 +20,43 @@ UCLASS()
 class UNREALASSIGMENTWEEK3_API ATopDownPawn : public APawn
 {
 	GENERATED_BODY()
-
 public:
+	// Sets default values for this pawn's properties
 	ATopDownPawn();
 
 protected:
-	UPROPERTY(VisibleAnywhere)
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(EditDefaultsOnly)
+	UCapsuleComponent* CapsuleComponent;
+	UPROPERTY(EditDefaultsOnly)
 	USpringArmComponent* SpringArm;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	UCameraComponent* TopDownCamera;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement")
-class UFloatingPawnMovement* TopDownPawnMovementComponent;
+	UPROPERTY(EditDefaultsOnly)
+	UCameraComponent* Camera;
 
 	UPROPERTY()
-	UInputMappingContext* PawnMappingContext;
+	UInputMappingContext* MappingContext;
+
 	UPROPERTY()
 	UInputAction* MoveAction;
+
 	UPROPERTY()
-	UInputAction* LookAction;
-	UPROPERTY()
-	UInputAction* ZoomAction;
+	UInputAction* ScrollAction;
+	UPROPERTY(EditDefaultsOnly)
+	UFloatingPawnMovement* FloatingMovement;
 
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	UFUNCTION(BlueprintCallable)
+	void Move(const FInputActionValue& ActionValue);
+	UFUNCTION(BlueprintCallable)
+	void ZoomInOut(const FInputActionValue& ActionValue);
 
-	UFUNCTION()
-	void MoveForward(const FInputActionValue& ActionValue);
-
-	UFUNCTION()
-	void Look(const FInputActionValue& ActionValue);
-
-	UFUNCTION()
-	void ZoomIn(const FInputActionValue& ActionValue);
-	//void ZoomOut();
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement")
-	float MoveScale = 1.0f;
-
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement")
-	float RotateScale = 50.f;
-
-	float ZoomSpeed = 100.0f;
-	float MinZoomDistance = 500.0f;
-	float MaxZoomDistance = 2000.0f;
 };
