@@ -119,7 +119,7 @@ void ATopDownPawn::ZoomInOut(const FInputActionValue& ActionValue)
 	if (TargetArmLength >= -460) {
 		SpringArm->TargetOffset.Z -= Value * 20;
 	}
-	if (TargetOffsetZ <= 1000) {
+	if (TargetOffsetZ <= 1500) {
 		SpringArm->TargetArmLength -= Value * 9.2;
 	}
 

@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include <Components/SplineComponent.h>
+#include <Components/SplineMeshComponent.h>
 #include "WallSpline.generated.h"
+
 
 UCLASS()
 class UNREALASSIGMENTWEEK3_API AWallSpline : public AActor
@@ -30,5 +32,32 @@ public:
 	USplineComponent* SplineComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-	UStaticMesh* Mesh;
+	UStaticMesh* WallMesh;
+
+	UFUNCTION()
+	void AddSplinePoint(const FVector& Points);
+
+	//UPROPERTY()
+	//TArray<FVector> SplinePoint;
+
+	UFUNCTION()
+	void CreateWalls();
+
+
+	UFUNCTION()
+	void CreateWall(const FVector& StartPos, const FVector& StartTangent, const FVector& EndPos, const FVector& EndTangent);
+
+	/*UFUNCTION()
+	void FinalizeSpline();*/
+
+	
+	UPROPERTY()
+	TArray<class USplineMeshComponent*> WallMeshComponents;
+
+
+	UPROPERTY(EditAnywhere, Category = "Spline")
+	float WallThickness;
+
+	UPROPERTY(EditAnywhere, Category = "Spline")
+	float WallHeight;
 };
