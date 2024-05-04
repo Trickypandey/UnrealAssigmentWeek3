@@ -4,6 +4,8 @@
 #include "WallBuilderController.h"
 
 
+
+
 void AWallBuilderController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -18,6 +20,7 @@ AWallBuilderController::AWallBuilderController()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bShowMouseCursor = true;
+	Message.BindUFunction(this, "NotifyMessage");
 }
 
 void AWallBuilderController::SetupInputComponent()
@@ -67,13 +70,13 @@ void AWallBuilderController::GenerateWall()
 			FVector ClickLocation = HitonClick.Location;
 			
 
-			
 			ArrayOfSplines[SplineIndex]->AddSplinePoint(ClickLocation);
 
-			/*if (ArrayOfSplines[SplineIndex]->SplinePoint.Num() >= 2) {
-				FString Msg = "On Spline " + FString::FromInt(SplineIndex) + " Wall " + FString::FromInt(ArrayOfSplines[SplineIndex]->SplinePoint.Num() - 1) + " Generated";
-				
-			}*/
+			if (ArrayOfSplines[SplineIndex]->SplineComponent->GetNumberOfSplinePoints() >= 2) {
+				FString Msg = "On Spline " + FString::FromInt(SplineIndex) + " Wall " + FString::FromInt(ArrayOfSplines[SplineIndex]->SplineComponent->GetNumberOfSplinePoints() - 1) + " Generated";
+				Message.ExecuteIfBound(Msg);
+			
+			}
 		}
 	}
 	else {
@@ -106,6 +109,8 @@ void AWallBuilderController::NewSpline()
 		FString Msg = "New Wall Spline " + FString::FromInt(SplineIndex) + " Generated";
 		
 	}*/
+
+	
 
 	AWallSpline* WallObj = NewObject<AWallSpline>(this);
 	ArrayOfSplines.Add(WallObj);

@@ -12,6 +12,12 @@
 #include "Delegates/Delegate.h" 
 #include "WallBuilderController.generated.h"
 
+
+
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWallSegmentStartedDelegate);
+//DECLARE_DELEGATE_OneParam(FWallDrawingCompletedDelegate, FString);
+DECLARE_DELEGATE_OneParam(GenerateMsg, FString)
+
 /**
  * 
  */
@@ -52,6 +58,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "WallController")
 	int32 SplineIndex;
+
+	/*UPROPERTY(BlueprintAssignable, Category = "Wall")
+	FWallSegmentStartedDelegate OnWallSegmentStarted;*/
+
+	GenerateMsg Message;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void NotifyMessage(const FString& msg);
+
 
 protected:
 	// Called when the game starts or when spawned
