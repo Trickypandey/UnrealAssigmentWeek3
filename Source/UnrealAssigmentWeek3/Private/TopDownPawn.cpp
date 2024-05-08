@@ -26,19 +26,19 @@ ATopDownPawn::ATopDownPawn()
 
 	PrimaryActorTick.bCanEverTick = true;
 
-	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
+	//CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
 
-	CapsuleComponent->SetCapsuleHalfHeight(100);
-	CapsuleComponent->SetCapsuleRadius(40);
-	CapsuleComponent->SetEnableGravity(false);
-	CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	CapsuleComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-	RootComponent = CapsuleComponent;
+	//CapsuleComponent->SetCapsuleHalfHeight(100);
+	//CapsuleComponent->SetCapsuleRadius(40);
+	////CapsuleComponent->SetEnableGravity(true);
+	//CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	//CapsuleComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->TargetArmLength = -211.599960;
 	SpringArm->TargetOffset = FVector(-520, 0, 540);
-	SpringArm->SetupAttachment(CapsuleComponent);
+	SpringArm->SetupAttachment(SpringArm);
+	RootComponent = SpringArm;
 	float Angle = FMath::RadiansToDegrees(atan(SpringArm->TargetOffset.Z / SpringArm->TargetArmLength));
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
@@ -128,11 +128,11 @@ void ATopDownPawn::ZoomInOut(const FInputActionValue& ActionValue)
 
 	FString FloatAsString = FString::SanitizeFloat(SpringArm->TargetArmLength);
 	FString DebugMessage = FString::Printf(TEXT("MyFloatValue: %s"), *FloatAsString);
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("armlength: %f"), SpringArm->TargetArmLength));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("armlength: %f"), SpringArm->TargetArmLength));
 
 	FloatAsString = FString::SanitizeFloat(SpringArm->TargetOffset.Z);
 	DebugMessage = FString::Printf(TEXT("MyFloatValue: %s"), *FloatAsString);
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("offsetZ: %f"), SpringArm->TargetOffset.Z));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("offsetZ: %f"), SpringArm->TargetOffset.Z));
 
 	float Angle;
 	if (SpringArm->TargetArmLength == 0) {
@@ -152,10 +152,10 @@ void ATopDownPawn::ZoomInOut(const FInputActionValue& ActionValue)
 
 	FloatAsString = FString::SanitizeFloat(Angle);
 	DebugMessage = FString::Printf(TEXT("MyFloatValue: %s"), *FloatAsString);
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("Angle: %f"), Angle));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("Angle: %f"), Angle));
 
 	Camera->SetRelativeRotation(FRotator(Angle, 0, 0));
 
-	/*GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("ROTATION: %f"), *Camera->GetRelativeRotation().ToString()));*/
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("ROTATION: %f"), *Camera->GetRelativeRotation().ToString()));
 
 }
