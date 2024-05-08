@@ -19,6 +19,8 @@ public:
 	AWallSpline();
 
 	void OnConstruction(const FTransform& Transform) override;
+	UPROPERTY()
+	TArray<FVector> PreviousSplinePoints;
 
 protected:
 	// Called when the game starts or when spawned
@@ -37,8 +39,6 @@ public:
 	UFUNCTION()
 	void AddSplinePoint(const FVector& Points);
 
-	//UPROPERTY()
-	//TArray<FVector> SplinePoint;
 
 	UFUNCTION()
 	void CreateWalls();
@@ -46,6 +46,8 @@ public:
 
 	UFUNCTION()
 	void CreateWall(const FVector& StartPos, const FVector& StartTangent, const FVector& EndPos, const FVector& EndTangent);
+
+	bool UndoLastAction();
 
 	/*UFUNCTION()
 	void FinalizeSpline();*/

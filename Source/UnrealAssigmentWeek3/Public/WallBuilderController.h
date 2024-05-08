@@ -14,8 +14,7 @@
 
 
 
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWallSegmentStartedDelegate);
-//DECLARE_DELEGATE_OneParam(FWallDrawingCompletedDelegate, FString);
+
 DECLARE_DELEGATE_OneParam(GenerateMsg, FString)
 
 /**
@@ -38,6 +37,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "WallController")
 	UInputAction* CreateNewSpline;
 
+	UPROPERTY(EditDefaultsOnly, Category = "WallController")
+	UInputAction* UndoAction;
+
 	//UPROPERTY(EditDefaultsOnly, Category = "WallController")
 	//UInputAction* StopCreateNewSpline;
 
@@ -52,6 +54,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "WallController")
 	void NewSpline();
+
+	UFUNCTION(BlueprintCallable, Category = "WallController")
+	void UndoPreviousPoint();
 
 	//UFUNCTION(BlueprintCallable, Category = "WallController")
 	//void StopGeneratingWall();

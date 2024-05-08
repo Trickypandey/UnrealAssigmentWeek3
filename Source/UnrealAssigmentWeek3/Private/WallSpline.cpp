@@ -7,7 +7,7 @@
 // Sets default values
 AWallSpline::AWallSpline()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+
 	PrimaryActorTick.bCanEverTick = true;
 
 	SplineComponent = CreateDefaultSubobject<USplineComponent>("Spline");
@@ -52,17 +52,9 @@ void AWallSpline::OnConstruction(const FTransform& Transform)
 	//}
 }
 
-// Called when the game starts or when spawned
 void AWallSpline::BeginPlay()
 {
 	Super::BeginPlay();
-	//GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Blue, FString::Printf(TEXT("in CreateWall: %d"), SplineComponent->GetNumberOfSplinePoints()));
-	/*AddSplinePoint(FVector(0, 0, 0));
-	AddSplinePoint(FVector(100, 0, 0));
-	AddSplinePoint(FVector(100, 100, 0));*/
-
-	
-	
 }
 
 // Called every frame
@@ -78,6 +70,7 @@ void AWallSpline::AddSplinePoint(const FVector& Location)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Blue, FString::Printf(TEXT("in CreateWall: %d"), SplineComponent->GetNumberOfSplinePoints()));
 	SplineComponent->AddSplinePoint(Location, ESplineCoordinateSpace::World);
+	PreviousSplinePoints.Add(Location);
 	if (SplineComponent->GetNumberOfSplinePoints() > 1)
 	{
 		CreateWalls();
@@ -119,19 +112,21 @@ void AWallSpline::CreateWall(const FVector& StartPos, const FVector& StartTangen
 	WallMeshComponents.Add(SplineMesh);
 
 	SplineMesh->SetStartAndEnd(StartPos, StartTangent, EndPos, EndTangent, true);
-	//SplineMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 
 
-//void AWallSpline::FinalizeSpline()
-//{
-//	if (SplineComponent->GetNumberOfSplinePoints() >= 2)
-//	{
-//		
-//		SplineComponent->SetClosedLoop(true);
-//	}
-//	else
-//	{
-//		UE_LOG(LogTemp, Warning, TEXT("Cannot finalize spline: Not enough points"));
-//	}
-//}
+bool AWallSpline::UndoLastAction()
+{
+	if (PreviousSplinePoints.Num() > 0)
+	{
+		SplineComponent->ClearSplinePoints();
+		PreviousSplinePoints.Pop();
+		for (const FVector& Point : PreviousSplinePoints)
+		{
+			SplineComponent->AddSplinePoint(Point, ESplineCoordinateSpace::World);
+		}
+		CreateWalls();
+		return false;
+	}
+	return true;
+}

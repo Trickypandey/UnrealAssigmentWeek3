@@ -35,21 +35,23 @@ void AWallBuilderController::SetupInputComponent()
 
 	CreateNewSpline = NewObject<UInputAction>(this);
 	CreateNewSpline->ValueType = EInputActionValueType::Boolean;
+	
+	UndoAction = NewObject<UInputAction>(this);
+	UndoAction->ValueType = EInputActionValueType::Boolean;
 
-	/*StopCreateNewSpline = NewObject<UInputAction>(this);
-	StopCreateNewSpline->ValueType = EInputActionValueType::Boolean;*/
 
 
 
 	check(EIC)
 		EIC->BindAction(OnClick, ETriggerEvent::Completed, this, &AWallBuilderController::GenerateWall);
 		EIC->BindAction(CreateNewSpline, ETriggerEvent::Completed, this, &AWallBuilderController::NewSpline);
-		//EIC->BindAction(StopCreateNewSpline,ETriggerEvent::Completed, this, &AWallBuilderController::StopGeneratingWall);
+		EIC->BindAction(UndoAction, ETriggerEvent::Completed, this, &AWallBuilderController::UndoPreviousPoint);
 
 	if (MappingContext) {
 		MappingContext->MapKey(OnClick, EKeys::LeftMouseButton);
 		MappingContext->MapKey(CreateNewSpline, EKeys::RightMouseButton);
-		//MappingContext->MapKey(StopCreateNewSpline, EKeys::H);
+		MappingContext->MapKey(UndoAction, EKeys::Z);
+
 	}
 
 	check(GetLocalPlayer());
@@ -81,7 +83,7 @@ void AWallBuilderController::GenerateWall()
 	}
 	else {
 		FString Msg = "Right Click To Generate Spline";
-		
+		Message.ExecuteIfBound(Msg);
 	}
 }
 
@@ -112,21 +114,19 @@ void AWallBuilderController::NewSpline()
 		Message.ExecuteIfBound(Msg);
 		
 	}
-
-
-	/*AWallSpline* WallObj = NewObject<AWallSpline>(this);
-	ArrayOfSplines.Add(WallObj);
-	SplineIndex = ArrayOfSplines.Num() - 1;
-	FString Msg = "New Spline " + FString::FromInt(SplineIndex) + " Generated";
-	Message.ExecuteIfBound(Msg);*/
 }
 
-//void AWallBuilderController::StopGeneratingWall()
-//{
-//	if (ArrayOfSplines.Num() > 0) {
-//		if (ArrayOfSplines[ArrayOfSplines.Num() - 1]->SplineComponent->GetNumberOfSplinePoints() >= 2) {
-//			
-//			ArrayOfSplines[ArrayOfSplines.Num() - 1]->FinalizeSpline();
-//		}
-//	}
-//}
+void AWallBuilderController::UndoPreviousPoint()
+{
+	if (ArrayOfSplines.Num() > 0)
+	{ 
+		GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Black, FString::Printf(TEXT("in CreateWall: %d"), ArrayOfSplines.Num()));
+		auto IsCompletelyRemoved = ArrayOfSplines.Last()->UndoLastAction();
+
+		if (IsCompletelyRemoved)
+		{
+			SplineIndex--;
+			ArrayOfSplines.Pop();
+		}
+	}
+}
