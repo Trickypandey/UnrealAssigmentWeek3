@@ -128,11 +128,11 @@ void ATopDownPawn::ZoomInOut(const FInputActionValue& ActionValue)
 
 	FString FloatAsString = FString::SanitizeFloat(SpringArm->TargetArmLength);
 	FString DebugMessage = FString::Printf(TEXT("MyFloatValue: %s"), *FloatAsString);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("armlength: %f"), SpringArm->TargetArmLength));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("armlength: %f"), SpringArm->TargetArmLength));
 
 	FloatAsString = FString::SanitizeFloat(SpringArm->TargetOffset.Z);
 	DebugMessage = FString::Printf(TEXT("MyFloatValue: %s"), *FloatAsString);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("offsetZ: %f"), SpringArm->TargetOffset.Z));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("offsetZ: %f"), SpringArm->TargetOffset.Z));
 
 	float Angle;
 	if (SpringArm->TargetArmLength == 0) {
@@ -152,7 +152,7 @@ void ATopDownPawn::ZoomInOut(const FInputActionValue& ActionValue)
 
 	FloatAsString = FString::SanitizeFloat(Angle);
 	DebugMessage = FString::Printf(TEXT("MyFloatValue: %s"), *FloatAsString);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("Angle: %f"), Angle));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, FString::Printf(TEXT("Angle: %f"), Angle));
 
 	Camera->SetRelativeRotation(FRotator(Angle, 0, 0));
 

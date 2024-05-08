@@ -87,17 +87,19 @@ void AWallBuilderController::GenerateWall()
 
 void AWallBuilderController::NewSpline()
 {
-	/*if (ArrayOfSplines.Num() > 0) {
-		if (ArrayOfSplines[ArrayOfSplines.Num() - 1]->SplinePoint.Num() >= 2) {
+	if (ArrayOfSplines.Num() > 0) {
+		if (ArrayOfSplines[ArrayOfSplines.Num() - 1]->SplineComponent->GetNumberOfSplinePoints() >= 2) {
 			AWallSpline* Spline = GetWorld()->SpawnActor<AWallSpline>(AWallSpline::StaticClass());
 			ArrayOfSplines.Add(Spline);
 			SplineIndex = ArrayOfSplines.Num() - 1;
 
 			FString Msg = "New Spline " + FString::FromInt(SplineIndex) + " Generated";
+			Message.ExecuteIfBound(Msg);
 			
 		}
 		else {
 			FString Msg = "At least create a wall before creating a new spline";
+			Message.ExecuteIfBound(Msg);
 		
 		}
 	}
@@ -107,14 +109,16 @@ void AWallBuilderController::NewSpline()
 		SplineIndex = ArrayOfSplines.Num() - 1;
 
 		FString Msg = "New Wall Spline " + FString::FromInt(SplineIndex) + " Generated";
+		Message.ExecuteIfBound(Msg);
 		
-	}*/
+	}
 
-	
 
-	AWallSpline* WallObj = NewObject<AWallSpline>(this);
+	/*AWallSpline* WallObj = NewObject<AWallSpline>(this);
 	ArrayOfSplines.Add(WallObj);
 	SplineIndex = ArrayOfSplines.Num() - 1;
+	FString Msg = "New Spline " + FString::FromInt(SplineIndex) + " Generated";
+	Message.ExecuteIfBound(Msg);*/
 }
 
 //void AWallBuilderController::StopGeneratingWall()

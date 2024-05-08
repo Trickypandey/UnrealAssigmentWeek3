@@ -27,7 +27,7 @@ void AWallSpline::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 
-	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Blue, FString::Printf(TEXT("in CreateWall: %d"), SplineComponent->GetNumberOfSplinePoints()));
+	//GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Blue, FString::Printf(TEXT("in CreateWall: %d"), SplineComponent->GetNumberOfSplinePoints()));
 	//if (!WallMesh)
 	//{
 	//	return;
@@ -56,7 +56,7 @@ void AWallSpline::OnConstruction(const FTransform& Transform)
 void AWallSpline::BeginPlay()
 {
 	Super::BeginPlay();
-	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Blue, FString::Printf(TEXT("in CreateWall: %d"), SplineComponent->GetNumberOfSplinePoints()));
+	//GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Blue, FString::Printf(TEXT("in CreateWall: %d"), SplineComponent->GetNumberOfSplinePoints()));
 	/*AddSplinePoint(FVector(0, 0, 0));
 	AddSplinePoint(FVector(100, 0, 0));
 	AddSplinePoint(FVector(100, 100, 0));*/
@@ -76,7 +76,7 @@ void AWallSpline::Tick(float DeltaTime)
 
 void AWallSpline::AddSplinePoint(const FVector& Location)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Blue, FString::Printf(TEXT("in CreateWall: %d"), SplineComponent->GetNumberOfSplinePoints()));
+	//GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Blue, FString::Printf(TEXT("in CreateWall: %d"), SplineComponent->GetNumberOfSplinePoints()));
 	SplineComponent->AddSplinePoint(Location, ESplineCoordinateSpace::World);
 	if (SplineComponent->GetNumberOfSplinePoints() > 1)
 	{
