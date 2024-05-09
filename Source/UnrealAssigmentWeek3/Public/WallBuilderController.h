@@ -99,6 +99,6 @@ protected:
 	virtual void BeginPlay() override;
 
 
-	bool bWallCreationMode = true;
+	bool bWallCreationMode = false;
 	
 };
