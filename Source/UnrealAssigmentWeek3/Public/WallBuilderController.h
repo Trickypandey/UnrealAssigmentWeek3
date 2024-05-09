@@ -16,6 +16,7 @@
 
 
 DECLARE_DELEGATE_OneParam(GenerateMsg, FString)
+DECLARE_DELEGATE_OneParam(ChangeCreationMode, bool);
 
 /**
  * 
@@ -39,6 +40,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "WallController")
 	UInputAction* UndoAction;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "WallController")
+	UInputAction* NextSpline;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "WallController")
+	UInputAction* PrevSpline;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "WallController")
+	UInputAction* ChangeModeAction;
 
 	//UPROPERTY(EditDefaultsOnly, Category = "WallController")
 	//UInputAction* StopCreateNewSpline;
@@ -58,6 +68,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "WallController")
 	void UndoPreviousPoint();
 
+	UFUNCTION(BlueprintCallable, Category = "WallController")
+	void MoveToNextOrPreviousSpline(bool bMoveToNext);
+
+	UFUNCTION(BlueprintCallable, Category = "WallController")
+	void ToggleCreationMode();
+
+
 	//UFUNCTION(BlueprintCallable, Category = "WallController")
 	//void StopGeneratingWall();
 
@@ -68,14 +85,20 @@ public:
 	FWallSegmentStartedDelegate OnWallSegmentStarted;*/
 
 	GenerateMsg Message;
+	
+	ChangeCreationMode ToogleDelgate;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void NotifyMessage(const FString& msg);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void ChangeMode(bool toggle);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+
+	bool bWallCreationMode = true;
 	
 };
