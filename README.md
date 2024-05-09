@@ -53,6 +53,8 @@ This project aims to implement a dynamic wall creation system in Unreal Engine u
 - Right-click to start a new wall segment.
 - Press 'Z' to undo the last spline point added.
 - Press 'C' to toggle between wall creation mode and new spline creation mode.
+- Press 'E' to go to the next spline.
+- Press 'Q' to go to the previous spline .
 
 ## Installation
 
