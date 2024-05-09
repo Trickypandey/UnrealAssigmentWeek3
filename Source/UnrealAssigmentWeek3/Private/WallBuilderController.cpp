@@ -138,7 +138,6 @@ void AWallBuilderController::UndoPreviousPoint()
 {
 	if (ArrayOfSplines.Num() > 0)
 	{ 
-		GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Black, FString::Printf(TEXT("in CreateWall: %d"), ArrayOfSplines.Num()));
 		auto IsCompletelyRemoved = ArrayOfSplines.Last()->UndoLastAction();
 		FString Msg = "Undo";
 		Message.ExecuteIfBound(Msg);
@@ -155,6 +154,7 @@ void AWallBuilderController::MoveToNextOrPreviousSpline(bool bMoveToNext)
 {
 	if (ArrayOfSplines.Num() > 0)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Black, FString::Printf(TEXT("in Reached: %d"), ArrayOfSplines.Num()));
 		if (bMoveToNext)
 		{
 			SplineIndex = (SplineIndex + 1) % ArrayOfSplines.Num();
